@@ -1,0 +1,40 @@
+# ===== Web 框架 / 接口 =====
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.0
+pydantic>=2.6.0
+
+# ===== LangChain 文档解析 / 分块 / 向量链路 =====
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langchain-text-splitters>=0.2.0
+langchain-community>=0.2.0
+
+# 向量库（二选一即可；未安装时会自动回退到纯 Python 内存向量库）
+faiss-cpu>=1.8.0            # 推荐：高性能、可持久化
+
+# ===== 可视化前端 =====
+gradio>=4.20.0
+
+# ===== 多格式文件解析依赖（轻量、必装）=====
+pypdf>=4.0.0
+PyMuPDF>=1.27.0              # PDF 渲染 + 扫描件 OCR（自动 fallback 到 pypdf）
+python-docx>=1.1.0
+python-pptx>=0.6.23
+openpyxl>=3.1.2
+jieba>=0.42.1                # 中文关键词分词，用于关键词检索兜底与重排序
+reportlab>=4.0               # 文档翻译：把译文段落生成 PDF（含中文字体）
+
+# ===== 网络请求（智谱 AI 调用）=====
+requests>=2.31.0
+
+# 说明：
+# 1. 本项目通过 requests 直接调用智谱 AI 的 OpenAI 兼容接口
+#    （embeddings / chat/completions），不强制依赖 zhipuai SDK。
+# 2. 文档解析层优先使用 LangChain 的 Loader 组件；当对应解析库
+#    未安装时，会自动回退到基于 pypdf / python-docx / python-pptx /
+#    openpyxl 的轻量内置解析实现，保证程序可运行。
+# 3. 如需使用 LangChain 的原生 Loader（如 UnstructuredPowerPointLoader），
+#    可额外安装：pip install "unstructured[all-docs]"

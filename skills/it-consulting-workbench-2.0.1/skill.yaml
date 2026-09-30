@@ -1,0 +1,39 @@
+id: it_consulting_workbench_2_0_1
+name: it-consulting-workbench
+icon: 🧩
+tag: 自定义
+description: 【IT咨询顾问 / AI咨询顾问 / 数字化转型顾问 / CIO顾问 超级工作台 / IT Consulting & AI Transformation
+  Advisor Workbench】 ——面向IT战略规划、企业AI转型、技术尽调、供应商选型、企业架构设计、数字化成熟度评估、IT治理、 IT财务管理、网络安全评估、云迁移规划、数据战略与治理、数据中台、业务中台、主数据管理(MDM)、
+  敏捷转型、DevOps转型、低代码平台选型、IT外包管理、IT审计、变革管理、IT组织设计、 项目实施管控、高管汇报等全场景IT咨询的全栈自动化技能。 ■ 角色覆盖：无论你被称为
+  IT咨询顾问、IT顾问、AI咨询顾问、AI转型顾问、数字化转型顾问、数字化顾问、 CIO顾问、IT战略顾问、企业架构师、EA、技术咨询顾问、技术顾问、IT规划师、信息化规划师、管理咨询顾问、
+  科技咨询顾问、解决方案架构师、售前顾问、IT项目经理、PMO —— 这个 Skill 都能胜任你的核心工作。 ■ 方法论驱动：内置 MECE 结构化分解、假设驱动
+  (Hypothesis-Driven)、金字塔原理 (Pyramid Principle)、 SCQA 叙事框架、Issue Tree / Driver Tree、5-Why
+  根因分析、80/20 帕累托法则、ADKAR 变革模型、 Kotter 8步变革法、TOGAF ADM 企业架构、NIST CSF 2.0 安全框架、6R 云迁移框架、
+  AIM² AI成熟度模型 (L1-L5)、RICE+ AI用例评分、Five Case Model 商业论证、FinOps 三阶段、 DORA DevOps 指标、ITIL
+  4 服务管理、Well-Architected Framework。 ■ 全生命周期覆盖 (8阶段57文件)： 阶段0-商机开发与签约：初次客户沟通 → 需求澄清与问题诊断(MECE五维)
+  → 项目建议书Proposal(9章) → SOW合同与谈判 阶段1-项目启动与诊断：项目章程与团队组建 → 利益相关者访谈(四波法) → IT现状五维诊断(技术/流程/组织/数据/财务)
+  → 诊断报告撰写(发现→洞察→建议) 阶段2-战略与方案设计：IT战略规划(SoR/SoD/SoI+Run/Grow/Transform) → AI转型战略(AIM²+RICE+)
+  → 企业架构设计(TOGAF四层) → 云战略与迁移规划(6R+FinOps) → 数据战略与治理(Data Mesh/Lakehouse) → 安全战略与风险管理(NIST
+  CSF 2.0+零信任) 阶段3-技术评估与选型：技术尽调(架构/代码/安全/团队四维) → RFP全流程(8-12周) → 供应商评估与选型(评分→演示→PoC→参考调查)
+  阶段4-财务分析与商业论证：TCO总拥有成本分析(5年+隐性成本) → ROI与商业论证(NPV/IRR/Payback) → FinOps与成本优化(三阶段)
+  阶段5-变革管理与组织设计：变革管理(ADKAR+Kotter+采用度仪表盘) → IT组织设计(平台+产品模式) 阶段6-实施落地与PMO：项目实施管理(三层治理+质量门+变更管理)
+  → 供应商管理(记分卡+QBR+SLA) 阶段7-交付与收尾：高管汇报(SCQA+金字塔原理+30秒结论) → 项目验收与收尾 → 知识转移与后续合作 ■ 内置12个填空式交付物模板：Proposal项目建议书、诊断报告、IT战略规划报告、AI转型路线图、
+  商业论证Business Case、RFP需求建议书、供应商评分卡、TCO分析、变革管理计划、董事会汇报PPT结构、 SteerCo月度评审、项目验收报告。每个模板填公司名即可用。
+  ■ 对标6家顶尖咨询公司：McKinsey(结构化思维) + Bain(结果导向) + BCG(战略高度) + Accenture(工程全栈交付) + Deloitte(行业深度)
+  + Thoughtworks(敏捷现代化)。 ■ 触发词覆盖90+中英文别名：IT咨询、IT咨询顾问、AI咨询、AI咨询顾问、数字化转型、数字化转型顾问、 数字化成熟度评估、数字化成熟度、CIO顾问、IT战略、IT战略规划、信息化规划、信息系统规划、
+  数字化规划、IT规划、IT治理、IT财务管理、企业架构、企业架构设计、EA、TOGAF、技术架构、 技术咨询、技术顾问、管理咨询、战略咨询、科技咨询、AI转型、人工智能转型、技术尽调、科技尽调、
+  IT尽调、供应商选型、供应商评估、RFP、需求建议书、招标、ERP选型、CRM选型、SaaS选型、 低代码平台选型、低代码、TCO、总拥有成本、ROI、投资回报、商业论证、Business
+  Case、 FinOps、IT成本优化、云战略、云迁移、上云、数据战略、数据治理、数据中台、业务中台、 主数据管理、MDM、安全战略、网络安全、安全评估、敏捷转型、敏捷教练、DevOps、DevOps转型、
+  变革管理、组织设计、IT组织、IT外包管理、IT审计、PMO、项目管理、 board presentation、董事会汇报、高管汇报、steerco、steering
+  committee、 proposal、SOW、工作说明书、项目建议书、项目验收、IT roadmap、技术路线图、信息化蓝图、 IT consulting、IT
+  consultant、AI consulting、digital transformation、 digital maturity、CIO advisor、IT
+  strategy、IT governance、enterprise architecture、 technology consulting、management
+  consulting、technical due diligence、 vendor selection、cloud migration、data strategy、data
+  governance、 cybersecurity assessment、change management、agile transformation、 DevOps、low-code、master
+  data management、MDM、IT audit、IT outsourcing、 IT financial management、business case、TCO
+  analysis、RFP、SOW、board presentation。
+command: it_consulting_workbench_2_0_1
+aliases: []
+enabled: true
+handler: skill.py:run
+prompt_template: ''

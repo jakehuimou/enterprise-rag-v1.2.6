@@ -1,0 +1,16 @@
+# 外部技能配置（由「技能注册中心」自动扫描加载；本文件即「配置化管理」入口）
+# 修改后无需重启：在「🧩 技能专家」面板点「🔄 刷新技能」即可重新加载。
+id: pptgen
+name: 智能 PPT 生成助手
+icon: 🎨
+tag: 办公
+description: >-
+  根据主题、行业与风格，调用大模型生成大纲与正文，自动产出结构清晰、配色专业的
+  PowerPoint 演示文稿；支持多套内置配色与风格模板（详见 references/ 目录）。
+command: pptgen
+aliases:
+  - pmake
+enabled: true
+# 处理入口：同目录 skill.py 中的 run(raw, model) 函数
+handler: skill.py:run
+prompt_template: null

@@ -1,0 +1,13 @@
+# 外部技能配置（由「技能专家 → 新增技能」自动生成，也可手工编辑）
+id: text_summary
+name: 智能文档摘要
+icon: 📝
+tag: 文档
+description: 输入文本或粘贴文档内容，自动提炼 3-5 条核心要点，可作为对话技能或卡片展示。
+command: summary
+aliases:
+  - sum
+  - 摘要
+enabled: true
+handler: skill.py:run
+prompt_template: null

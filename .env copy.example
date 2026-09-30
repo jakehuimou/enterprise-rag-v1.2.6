@@ -1,0 +1,39 @@
+# ===================== 智谱 AI 配置 =====================
+# 必填：前往 https://open.bigmodel.cn 注册并获取 API Key
+ZHIPU_API_KEY=y188e9ce0e31c4a5aae53a9fc6581e87c.WbGNleAYj7RPQ9Ee
+
+
+# 向量化模型（默认 embedding-2，1024 维，支持中英文）
+EMBEDDING_MODEL=embedding-2
+
+# 对话大模型（可选 glm-4-flash / glm-4 / glm-4-plus 等）
+CHAT_MODEL=glm-4-flash
+
+# ===================== 文档分块配置 =====================
+# 分块策略：recursive（递归字符，通用默认）| markdown（按标题）| token（按Token）
+SPLITTER_TYPE=recursive
+
+# 块大小（字符数 / token数，取决于分块策略）
+CHUNK_SIZE=500
+
+# 上下文重叠（保持语义连贯）
+CHUNK_OVERLAP=80
+
+# 分隔符优先级（递归拆分使用，越靠前优先级越高）
+SEPARATORS=\n\n,\n,。,！,？,，,、, ,
+
+# ===================== 检索 / 推理配置 =====================
+# 向量检索召回数量
+TOP_K=4
+
+# 生成温度（0~1，越低越稳定）
+TEMPERATURE=0.3
+
+# 生成 top_p
+TOP_P=0.9
+
+# ===================== 服务端口配置 =====================
+API_HOST=127.0.0.1
+API_PORT=8000
+GRADIO_HOST=127.0.0.1
+GRADIO_PORT=7860

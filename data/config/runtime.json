@@ -1,0 +1,32 @@
+{
+  "embedding_model": "embedding-2",
+  "chat_model": "glm-4-flash",
+  "vision_model": "glm-4v-flash",
+  "voice_model": "qwen-tts-latest",
+  "tts_model": "qwen-tts-latest",
+  "tts_voice": "Cherry",
+  "chunk_size": 500,
+  "chunk_overlap": 80,
+  "separators": [
+    "\n\n",
+    "\n",
+    "。",
+    "！",
+    "？",
+    "，",
+    "、",
+    " ",
+    ""
+  ],
+  "splitter_type": "recursive",
+  "top_k": 4,
+  "temperature": 0.3,
+  "top_p": 0.9,
+  "embedding_provider": "zhipu",
+  "embedding_dim": 0,
+  "dashscope_api_key": "sk-ws-H.PIPERDE.Q6kH.MEUCIBDizgBZ8L2DXdcLBzCoxMSesHbmMmiR3Ga0eAFXUmdFAiEA0IMGKHALTiEMMuaKw63VX0Mai6mLV1Mof-ZZbM8ExrM",
+  "dashscope_base_url": "https://llm-50u61kpgw9o7p4us.cn-beijing.maas.aliyuncs.com",
+  "web_search_enabled": true,
+  "web_search_engine": "search_std",
+  "web_search_count": 5
+}
