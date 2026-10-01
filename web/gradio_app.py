@@ -2630,6 +2630,25 @@ def _run_chat_skill(message, skill_call, history_msgs, api_hist, model):
     yield gr.update(), history_msgs, api_hist, gr.update(visible=True), gr.update(visible=False), sp_idle, *exp
 
 
+def _strip_internal_marker(text: str) -> str:
+    """前端兜底：去掉后端可能漏掉的内部自检标记 NEED_WEB_SEARCH。
+
+    支持标记前后带空格、换行、标点、代码围栏等常见变体；
+    只在存在标记时清理，不会把正常答案误改。
+    """
+    if not text:
+        return text
+    cleaned = re.sub(
+        r"`?NEED_WEB_SEARCH`?(?:\s|[。！？!?\n；;.,])+",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"`?NEED_WEB_SEARCH`?", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
+    return cleaned
+
+
 def chat_fn(message, history_msgs, api_hist, model, session_id, web_search=None):
     """RAG 问答交互逻辑（流式输出：逐 token 渲染，结束后附上来源引用并生成导出文件）。
 
@@ -2706,7 +2725,7 @@ def chat_fn(message, history_msgs, api_hist, model, session_id, web_search=None)
                 notice_md = f"> 🌐 {obj.get('content', '')}\n\n"
                 continue
             if evt == "token":
-                answer_text += obj.get("content", "")
+                answer_text = _strip_internal_marker(answer_text + obj.get("content", ""))
             elif evt == "done":
                 sources = obj.get("sources", [])
                 continue

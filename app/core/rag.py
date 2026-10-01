@@ -193,6 +193,44 @@ def _head_says_cannot_answer(text: str, window: int = WEB_CHECK_WINDOW) -> bool:
     return _says_cannot_answer((text or "")[:window])
 
 
+def _sanitize_answer_for_user(text: str, web_used: bool = False, allow_fallback: bool = True) -> str:
+    """清理模型可能泄露的内部自检标记，避免用户看到 ``NEED_WEB_SEARCH``。
+
+    支持标记前后带空格、换行、标点、代码围栏等常见变体；
+    如果模型只返回了该标记（或去标记后仅剩空白/极少字符），则按是否已启用联网搜索，
+    给出得体的兜底回复，而不是把中间信号直接抛给用户。
+
+    ``allow_fallback=False`` 用于流式逐 token 输出场景：只剥离标记，不替换成兜底文案，
+    避免把正常的空片段/换行片段误填为兜底提示。
+    """
+    text = (text or "").strip()
+    if not text:
+        if allow_fallback:
+            return _no_answer_fallback(web_used)
+        return ""
+    # 去掉 NEED_WEB_SEARCH 及其身边常见的空格/换行/标点/代码围栏残留
+    cleaned = re.sub(
+        r"`?NEED_WEB_SEARCH`?(?:\s|[。！？!?\n；;.,])+",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    # 再去一次裸标记（没有尾随标点时）
+    cleaned = re.sub(r"`?NEED_WEB_SEARCH`?", "", cleaned, flags=re.IGNORECASE)
+    cleaned = cleaned.strip()
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
+    if allow_fallback and (not cleaned or len(cleaned) <= 2):
+        return _no_answer_fallback(web_used)
+    return cleaned
+
+
+def _no_answer_fallback(web_used: bool) -> str:
+    """知识库（和联网）都答不上时的兜底文案。"""
+    if web_used:
+        return "抱歉，当前知识库和联网搜索都未找到与这个问题相关的资料。"
+    return "当前知识库中没有与这个问题相关的资料。如需了解此类通用问题，可以尝试开启联网搜索，或上传相关文档后再问。"
+
+
 def _without_kb_sources(sources: List[Dict]) -> List[Dict]:
     """去掉知识库来源（保留附件 / 联网来源）。
 
@@ -687,6 +725,7 @@ class RAGPipeline:
                 )
                 if _head_says_cannot_answer(answer):
                     s = _without_kb_sources(s)
+                answer = _sanitize_answer_for_user(answer, web_used=True)
                 return f"> 🌐 已联网搜索 {len(docs)} 条资料作答。\n\n{answer}", s
         messages, sources, meta = self._prepare(
             query, history, model, session_id, web_check=web_on,
@@ -723,6 +762,8 @@ class RAGPipeline:
             sources = _without_kb_sources(sources)
         if notice:
             answer = f"> 🌐 {notice}\n\n{answer}"
+        # 最后一步：确保内部自检标记不会直接暴露给用户
+        answer = _sanitize_answer_for_user(answer, web_used=web_on)
         return answer, sources
 
     def answer_stream(
@@ -778,7 +819,9 @@ class RAGPipeline:
                 head: List[str] = []
                 for piece in _stream(m):
                     head.append(piece)
-                    yield ("token", piece)
+                    yield ("token", _sanitize_answer_for_user(
+                        piece, web_used=web_on, allow_fallback=False
+                    ))
                 if _head_says_cannot_answer("".join(head)):
                     s = _without_kb_sources(s)
                 yield ("sources", s)
@@ -798,7 +841,9 @@ class RAGPipeline:
             if docs:
                 yield ("notice", notice)
                 for piece in _stream(m2):
-                    yield ("token", piece)
+                    yield ("token", _sanitize_answer_for_user(
+                        piece, web_used=web_on, allow_fallback=False
+                    ))
                 yield ("sources", s2)
                 return
 
@@ -822,7 +867,9 @@ class RAGPipeline:
             for piece in stream:
                 if not undecided:
                     _acc(piece)
-                    yield ("token", piece)
+                    yield ("token", _sanitize_answer_for_user(
+                        piece, web_used=web_on, allow_fallback=False
+                    ))
                     continue
                 buffer.append(piece)
                 head = "".join(buffer)
@@ -833,7 +880,7 @@ class RAGPipeline:
                         or len(head) >= WEB_CHECK_WINDOW:
                     undecided = False          # 判定：本地能答 -> 补发缓冲并继续
                     _acc(head)
-                    yield ("token", head)
+                    yield ("token", _sanitize_answer_for_user(head, web_used=web_on))
 
             if reroute or undecided:
                 # 流已结束（回答很短）或已判定答不了 —— 统一按全文/缓冲内容做最终判断
@@ -845,17 +892,22 @@ class RAGPipeline:
                     if docs:
                         yield ("notice", notice)
                         for piece in _stream(m2):
-                            yield ("token", piece)
+                            yield ("token", _sanitize_answer_for_user(
+                                piece, web_used=web_on, allow_fallback=False
+                            ))
                         yield ("sources", s2)
                         return
                     # 联网无果：不能把本地答案丢掉 —— 补发缓冲并把原流读完
                     # （模型已明说「文档里找不到」，所以来源不再列出知识库）
-                    yield ("token", text)
+                    yield ("token", _sanitize_answer_for_user(text, web_used=web_on))
                     for piece in stream:
-                        yield ("token", piece)
+                        yield ("token", _sanitize_answer_for_user(
+                            piece, web_used=web_on, allow_fallback=False
+                        ))
                     yield ("sources", _without_kb_sources(sources))
                     return
-                yield ("token", text)          # 本地能答：补发缓冲
+                # 本地能答：补发缓冲，同时确保没有意外泄漏内部标记
+                yield ("token", _sanitize_answer_for_user(text, web_used=web_on))
         finally:
             try:
                 stream.close()                 # 中途改道时及时断开上一轮连接
